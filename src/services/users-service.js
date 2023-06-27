@@ -1,6 +1,6 @@
 import api from './api'
 
-class UserService {
+class UsersService {
     async get(userId){
        return await api.get(`/users/${userId}`).then(response => response.data);
     }
@@ -10,4 +10,4 @@ class UserService {
     }
 }
 
-export default new UserService();
+export default new UsersService();
