@@ -1,10 +1,21 @@
 <template>
   <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <MainPage/>
+    <router-link to="/more">More</router-link>
   </nav>
   <router-view/>
 </template>
+
+<script>
+import MainPage from './views/MainPage.vue';
+
+export default {
+  name: 'App',
+  components:{
+    MainPage
+  },
+}
+</script>
 
 <style>
 #app {
