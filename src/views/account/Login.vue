@@ -23,8 +23,6 @@ export default ({
         async submit(){
             if (!this.username) return;
 
-            console.log(this.$store)
-
             await this.$store.dispatch('fetchUser', this.username);
 
             if (!this.$store.getters.currentUser) await this.$store.dispatch('createUser', { username: this.username });

@@ -4,10 +4,12 @@
         <input type="text" placeholder="Enter your task" v-model="task.content">
         <button class="btn waves-effect waves-light w-100" type="submit" name="action" @click="addTask">+</button>
     </div>
+
+
+    <div class="tasks" v-for="task in allTasks">{{ task.content }}</div>
 </template>
 
 <script>
-import TasksService from '@/services/tasks-service.js'
 
 export default ({
     data() {
@@ -15,29 +17,29 @@ export default ({
             task: {
                 content: '',
                 completed: false
-            },
-            
+            }
+
         }
     },
     mounted() {
-        if(!this.$store.getters.currentUser) {
+        if (!this.$store.getters.currentUser) {
             this.$router.push('/');
             return;
         }
+        
+        this.$store.dispatch('fetchTasks', this.$store.getters.currentUser.id);
 
-        this.tasks = TasksService.getAll(this.$store.getters.currentUser.id);
     },
     methods: {
         async addTask() {
-
             if (!this.task.content) return;
 
-            let task = await TasksService.get(this.task);
-
-            if (!task) task = await TasksService.create({ tasks: this.task });
-          
-       
-            console.log(task)
+            await this.$store.dispatch('createTask', { content: this.task.content, userId: this.$store.getters.currentUser.id });
+        }
+    },
+    computed: {
+        allTasks() {
+            return this.$store.getters.getTasks;
         }
     }
 })

@@ -10,7 +10,7 @@ class TasksService {
     }
 
     async create (userId, value){
-        return await api.put(`/users/${userId}/tasks`, JSON.stringify(value)).then(response => response.data)
+        return await api.post(`/users/${userId}/tasks`, JSON.stringify(value)).then(response => response.data)
     }
 
     async update (userId, taskId, value){
