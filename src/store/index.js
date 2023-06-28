@@ -11,7 +11,7 @@ export default createStore({
     currentUser(state){
       return state.user
     },
-    getTasks(state){
+    allTasks(state){
       return state.tasks
     }
   },
@@ -24,6 +24,14 @@ export default createStore({
     },
     ADD_TASK(state, task){
       state.tasks.push(task)
+    },
+    UPDATE_TASK(state, task){
+
+    },
+    COMPLETE_TASK(state, task){
+    },
+    DELETE_TASK(state, taskId){
+      state.tasks = state.tasks.filter(t => t.id !== taskId)
     },
   },
   actions: {
@@ -42,6 +50,21 @@ export default createStore({
     async createTask({commit}, task){
       const createdTask = await TasksService.create(task.userId, task);
       commit('ADD_TASK', createdTask)
+    },
+    async updateTask({commit}, task){
+      const updatedTask = await TasksService.update(task.userId, task.id, task);
+      commit('UPDATE_TASK', updatedTask)
+    },
+    async completeTask({commit}, task){
+      task.completed = !task.completed;
+      const completedTask = await TasksService.update(task.userId, task.id, task)
+      commit('COMPLETE_TASK', completedTask)
+    },
+    async deleteTask({commit}, {userId, taskId}){
+      const deletedTask = await TasksService.delete(userId, taskId);
+      if(deletedTask){
+        commit('DELETE_TASK', taskId)
+      }
     }
 
   },
