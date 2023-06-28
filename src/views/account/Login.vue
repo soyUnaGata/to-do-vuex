@@ -13,9 +13,6 @@
 </template>
   
 <script>
-import UsersService from '@/services/users-service.js'
-import { useRouter } from 'vue-router';
-
 export default ({
     data() {
         return {
@@ -26,10 +23,12 @@ export default ({
         async submit(){
             if (!this.username) return;
 
-            let user = await UsersService.get(this.username);
+            console.log(this.$store)
 
-            if (!user) user = await UsersService.create({ username: this.username });
-            if (!user) return;
+            await this.$store.dispatch('fetchUser', this.username);
+
+            if (!this.$store.getters.currentUser) await this.$store.dispatch('createUser', { username: this.username });
+            if (!this.$store.getters.currentUser) return;
 
             this.$router.push('/tasks')
         }
