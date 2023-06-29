@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 const Login = () => import("@/views/account/Login.vue")
-const TaskDetails = () => import("@/views/tasks/TaskDetails.vue")
+const TaskItem = () => import("@/views/tasks/TaskItem.vue")
 const TaskList = () => import("@/views/tasks/TaskList.vue")
 
 const routes = [
@@ -11,8 +11,8 @@ const routes = [
   },
   {
     path: '/tasks/:taskId',
-    name: 'task-details',
-    component: TaskDetails,
+    name: 'details',
+    component: TaskItem,
     props: true
   },
   {

@@ -4,12 +4,6 @@
         <input type="text" placeholder="Enter your task" v-model="content">
         <button class="btn waves-effect waves-light w-100" type="submit" name="action" @click="addTask">+</button>
     </div>
-    <!-- 
-    <form @submit.prevent="addTask">
-        <textarea id="textarea1" class="materialize-textarea" v-model="task.content"></textarea>
-        <label for="textarea1">Textarea</label>
-        <button class="btn waves-effect waves-light w-100" type="submit" name="action">+</button>
-    </form> -->
 
 
     <div class="task d-flex" style="margin: 0 auto; width: 300px;" v-for="task in allTasks">
@@ -21,7 +15,7 @@
                 </label>
             </p>
             <div class="task-content">{{ task.content }}</div>
-            <button class="btn waves-effect waves-light" type="button" name="action">Edit</button>
+            <router-link class="btn waves-effect waves-light" :to="{ name: 'details', params: { taskId: task.id }}">Edit</router-link>
             <button class="btn waves-effect waves-light" style="background-color: tomato;" type="button" name="action" @click="deleteTask(task)">Delete</button>
         </div>
 
@@ -64,7 +58,7 @@ export default ({
     computed: {
         allTasks() {
             return this.$store.getters.allTasks;
-        }
+        },
     }
 })
 </script>

@@ -13,7 +13,10 @@ export default createStore({
     },
     allTasks(state){
       return state.tasks
-    }
+    },
+    taskById: (state) => (taskId) => {
+      return state.tasks.find(t => t.id == taskId)
+    },
   },
   mutations: {
     SET_USER(state, user) { 
@@ -26,9 +29,10 @@ export default createStore({
       state.tasks.push(task)
     },
     UPDATE_TASK(state, task){
-
-    },
-    COMPLETE_TASK(state, task){
+      const index = state.tasks.findIndex(t => t.id === task.id);
+      if(index !== -1){
+        state.tasks.splice(index, 1, task)
+      }
     },
     DELETE_TASK(state, taskId){
       state.tasks = state.tasks.filter(t => t.id !== taskId)
@@ -56,9 +60,8 @@ export default createStore({
       commit('UPDATE_TASK', updatedTask)
     },
     async completeTask({commit}, task){
-      task.completed = !task.completed;
-      const completedTask = await TasksService.update(task.userId, task.id, task)
-      commit('COMPLETE_TASK', completedTask)
+      const completedTask = await TasksService.update(task.userId, task.id, { completed: !task.completed })
+      commit('UPDATE_TASK', completedTask)
     },
     async deleteTask({commit}, {userId, taskId}){
       const deletedTask = await TasksService.delete(userId, taskId);
