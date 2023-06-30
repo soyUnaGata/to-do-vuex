@@ -1,5 +1,8 @@
 <template>
-    <SelectLang />
+    <div class="page-header d-flex justify-content-end align-items-center">
+        <SelectLang />
+    </div>
+    
     <div class="page-wrapper d-flex align-items-center justify-content-center">
         <form class="col s12" @submit.prevent="submit">
             <div class="row">

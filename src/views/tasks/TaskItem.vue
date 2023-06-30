@@ -1,15 +1,10 @@
 <template>
-    <div class="nav__btns d-flex justify-content-between">
-        <div style="margin: 10px 0 0 10px;">
-            <button v-if="!editMode" class="btn waves-effect waves-light"
-                style="color: #78909c; border: 1px solid #78909c; background-color: transparent;" type="button"
-                @click="cancelTask">{{ $t('button.cancel') }}
-            </button>
-        </div>
+    <div class="page-header d-flex justify-content-between align-items-center">
+        <router-link class="btn d-flex justify-content-center btn-outline-secondary" :to="{ path: '/tasks' }">
+            {{ $t('button.back') }}
+        </router-link>
 
-        <div>
-            <SelectLang />
-        </div>
+        <SelectLang />
     </div>
 
 

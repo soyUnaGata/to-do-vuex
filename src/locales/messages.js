@@ -11,6 +11,7 @@ const messages = {
         cancel: "Відмінити",
         edit: "Редагувати",
         continue: "Продовжити",
+        back: "До списку",
       },
       placeholder: {
         user: "Введіть ім'я користувача...",
@@ -33,6 +34,7 @@ const messages = {
         cancel: "Cancel",
         edit: "Edit",
         continue: "Continue",
+        back: "Back",
       },
       placeholder: {
         user: "Enter your Username...",
