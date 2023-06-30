@@ -1,30 +1,41 @@
 <template>
-    <h1>LIST</h1>
-    <div class="d-flex" style="max-width: 450px;">
-        <input type="text" placeholder="Enter your task" v-model="content">
-        <button class="btn waves-effect waves-light w-100" type="submit" name="action" @click="addTask">+</button>
-    </div>
+    <SelectLang/>
 
+    <h1 class="headline d-flex justify-content-center">{{ $t('headline.list') }}</h1>
 
-    <div class="task d-flex" style="margin: 0 auto; width: 300px;" v-for="task in allTasks">
-        <div class="about-task d-flex">
-            <p>
-                <label>
-                    <input type="checkbox" @click="completedTask(task)" v-model="task.completed" />
-                    <span></span>
-                </label>
-            </p>
-            <div class="task-content">{{ task.content }}</div>
-            <router-link class="btn waves-effect waves-light" :to="{ name: 'details', params: { taskId: task.id }}">Edit</router-link>
-            <button class="btn waves-effect waves-light" style="background-color: tomato;" type="button" name="action" @click="deleteTask(task)">Delete</button>
+    <div class="list__wrapper d-flex flex-column" style="gap: 20px;">
+        <div class="enter__task d-flex" style="margin: 0 auto; gap: 20px">
+            <input type="text" style="width: 580px;" :placeholder="$t('placeholder.task')" v-model="content">
+            <button class="btn waves-effect waves-light" style="background-color: #66bb6a;" type="submit" name="action" @click="addTask"><i class="small material-icons">add</i></button>
+        </div>
+
+        <div class="task__wrapper d-flex flex-column" style="margin: 0 auto; gap: 15px;">
+            <div class="task d-flex"  v-for="task in allTasks">
+                <div class="about-task d-flex">
+                    <p>
+                        <label>
+                            <input type="checkbox" @click="completedTask(task)" v-model="task.completed" />
+                            <span></span>
+                        </label>
+                    </p>
+                    <div class="task-content">{{ task.content }}</div>
+                    <router-link class="btn waves-effect waves-light" style="background-color: #29b6f6;" :to="{ name: 'details', params: { taskId: task.id } }"><i class="small material-icons">info</i></router-link>
+                    <button class="btn waves-effect waves-light" style="background-color: #ef5350;" type="button" name="action" @click="deleteTask(task)"> <i class="small material-icons">delete</i></button>
+                </div>
+
+            </div>
         </div>
 
     </div>
 </template>
 
 <script>
+import SelectLang from '@/components/SelectLang.vue';
 
 export default ({
+    components: {
+        SelectLang
+    },
     data() {
         return{
             content:'',
@@ -36,8 +47,7 @@ export default ({
             return;
         }
 
-        this.$store.dispatch('fetchTasks', this.$store.getters.currentUser.id);
-
+        this.$store.dispatch('fetchTasks', this.$store.getters.currentUser.id);  
     },
     methods: {
         async addTask() {
@@ -62,3 +72,12 @@ export default ({
     }
 })
 </script>
+
+<style>
+.about-task {
+    display: grid;
+    grid-template-columns: 0.5fr 9fr 1fr 1fr;
+    grid-gap: 15px;
+    align-items: center;
+}
+</style>

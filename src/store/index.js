@@ -1,11 +1,14 @@
 import { createStore } from 'vuex'
 import UsersService from "../services/users-service";
 import TasksService from '@/services/tasks-service';
+import LanguagesService from '@/services/langs-services';
 
 export default createStore({
   state: {
     user: null,
-    tasks: []
+    tasks: [],
+    languages: [],
+    selectedLanguage: '' 
   },
   getters: {
     currentUser(state){
@@ -17,6 +20,12 @@ export default createStore({
     taskById: (state) => (taskId) => {
       return state.tasks.find(t => t.id == taskId)
     },
+    allLanguages(state){
+      return state.languages
+    },
+    currentLanguage(state){
+      return state.selectedLanguage
+    }
   },
   mutations: {
     SET_USER(state, user) { 
@@ -37,6 +46,12 @@ export default createStore({
     DELETE_TASK(state, taskId){
       state.tasks = state.tasks.filter(t => t.id !== taskId)
     },
+    SET_LANGUAGES(state, langs){
+      state.languages = langs;
+    },
+    SET_LANGUAGE_CODE(state, langCode) {
+      state.selectedLanguage = langCode;
+    }
   },
   actions: {
     async fetchUser({commit}, username){
@@ -68,8 +83,19 @@ export default createStore({
       if(deletedTask){
         commit('DELETE_TASK', taskId)
       }
+    },
+    fetchLanguges({commit}){
+      const langs = LanguagesService.getAll();
+      commit('SET_LANGUAGES', langs);
+    },
+    fetchLanguage({commit}){
+      const langCode = LanguagesService.currentLanguageCode();
+      commit('SET_LANGUAGE_CODE', langCode);
+    },
+    updateLanguage({commit}, langCode){
+      LanguagesService.save(langCode);
+      commit('SET_LANGUAGE_CODE', langCode);
     }
-
   },
   modules: {
   }
